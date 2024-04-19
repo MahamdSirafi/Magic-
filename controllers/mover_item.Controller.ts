@@ -9,6 +9,11 @@ import AppError from "../utils/appError";
 export const createItem = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const mover = await Mover.findById(req.body.mover);
+    if (mover && mover.quest_state !== "loading") {
+      return next(
+        new AppError(STATUS_CODE.NOT_FOUND, [], "this mover is not loading")
+      );
+    }
     const IdItems = await mover_item.find({
       mover: req.body.mover,
       done: false,
