@@ -1,7 +1,14 @@
-import { Schema, model } from "mongoose";
-import { ItemDoc, ItemModel } from "../types/item.types";
-
-const itemSchema = new Schema<ItemDoc, ItemModel>(
+import { Schema, model, Types } from "mongoose";
+export const DOCUMENT_NAME = "Item";
+export const COLLECTION_NAME = "items";
+export interface Item {
+  _id: Types.ObjectId;
+  name: string;
+  weight: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+const schema = new Schema<Item>(
   {
     name: {
       type: String,
@@ -16,5 +23,4 @@ const itemSchema = new Schema<ItemDoc, ItemModel>(
   { timestamps: true }
 );
 
-const Item = model<ItemDoc>("Item", itemSchema);
-export default Item;
+export const ItemModel = model<Item>(DOCUMENT_NAME, schema, COLLECTION_NAME);

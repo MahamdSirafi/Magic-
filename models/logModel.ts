@@ -1,6 +1,13 @@
-import { Schema, model } from "mongoose";
-import { LogDoc, LogModel } from "../types/log.types";
-const logSchema = new Schema<LogDoc, LogModel>(
+import { Schema, model, Types } from "mongoose";
+export const DOCUMENT_NAME = "Log";
+export const COLLECTION_NAME = "logs";
+export interface Log {
+  _id: Types.ObjectId;
+  log: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+const schema = new Schema<Log>(
   {
     log: {
       type: String,
@@ -10,6 +17,4 @@ const logSchema = new Schema<LogDoc, LogModel>(
   },
   { timestamps: true }
 );
-
-const Log = model<LogDoc>("Log", logSchema);
-export default Log;
+export const LogModel = model<Log>(DOCUMENT_NAME, schema, COLLECTION_NAME);

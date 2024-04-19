@@ -1,8 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export default (fn: CallableFunction) => {
-  return (req: Request, res: Response, next: NextFunction) => {
-    //catch make a return for the program
-    fn(req, res, next).catch(next);
+type AsyncFunction = (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => Promise<any>;
+
+export default (execution: AsyncFunction) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    execution(req, res, next).catch(next);
   };
-};

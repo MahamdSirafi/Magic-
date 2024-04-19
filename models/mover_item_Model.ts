@@ -1,6 +1,17 @@
-import { Schema, model } from "mongoose";
-import { Mover_Item_Doc, Mover_Item_Model } from "../types/Mover_Item.types";
-const Mover_itemSchema = new Schema<Mover_Item_Doc, Mover_Item_Model>(
+import { Schema, model, Types } from "mongoose";
+import { Mover } from "./moverModel";
+import { Item } from "./itemModel";
+export const DOCUMENT_NAME = "Mover_Item";
+export const COLLECTION_NAME = "movers_items";
+export interface Mover_Item {
+  _id: Types.ObjectId;
+  mover: Mover;
+  item: Item;
+  done: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+const schema = new Schema<Mover_Item>(
   {
     mover: {
       type: Schema.Types.ObjectId,
@@ -19,5 +30,8 @@ const Mover_itemSchema = new Schema<Mover_Item_Doc, Mover_Item_Model>(
   },
   { timestamps: true }
 );
-const Mover_item = model<Mover_Item_Doc>("Mover_item", Mover_itemSchema);
-export default Mover_item;
+export const Mover_itemModel = model<Mover_Item>(
+  DOCUMENT_NAME,
+  schema,
+  COLLECTION_NAME
+);

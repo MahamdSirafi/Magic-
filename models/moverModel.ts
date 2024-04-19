@@ -1,6 +1,15 @@
-import { Schema, model } from "mongoose";
-import { MoverDoc, MoverModel } from "../types/mover.types";
-const moverSchema = new Schema<MoverDoc, MoverModel, any>(
+import { Schema, model, Types } from "mongoose";
+export const DOCUMENT_NAME = "Mover";
+export const COLLECTION_NAME = "movers";
+export  interface Mover {
+  _id: Types.ObjectId;
+  weight_limit: number;
+  Energy: number;
+  quest_state: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+const schema = new Schema<Mover>(
   {
     weight_limit: { type: Number, required: [true, "Enter weight limit"] },
     Energy: {
@@ -15,5 +24,4 @@ const moverSchema = new Schema<MoverDoc, MoverModel, any>(
   },
   { timestamps: true }
 );
-const Mover = model<MoverDoc>("Mover", moverSchema);
-export default Mover;
+export const MoverModel = model<Mover>(DOCUMENT_NAME, schema, COLLECTION_NAME);
